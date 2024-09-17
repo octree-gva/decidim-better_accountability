@@ -21,7 +21,7 @@ publish_gem:
 
 upload-translations:
   stage: translations
-  image: node:16.18
+  image: node:18.20
   rules:
     - if: '$CI_PIPELINE_SOURCE == "schedule"'
       when: never
@@ -32,6 +32,7 @@ upload-translations:
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
       when: manual
   script:
+    - export CROWDIN_PERSONAL_TOKEN=$CROWDIN_PERSONAL_TOKEN
     - npm install -g @crowdin/cli
     - crowdin upload --no-progress
     - crowdin status --no-progress
@@ -39,7 +40,7 @@ upload-translations:
 # Create a MR with the new translation
 mr-translations:
   stage: translations
-  image: node:16.18
+  image: node:18.20
   needs: 
     - "upload-translations"
   before_script:
