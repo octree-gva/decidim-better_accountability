@@ -1,0 +1,6 @@
+en:
+  decidim:
+    better_accountability:
+      select_view:
+        grid: Show in grid
+        percent: Show in percent

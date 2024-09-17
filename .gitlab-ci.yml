@@ -1,0 +1,60 @@
+variables:
+  CROWDIN_PROJECT_ID: $CROWDIN_PROJECT_ID
+  CROWDIN_PERSONAL_TOKEN: $CROWDIN_PERSONAL_TOKEN
+
+stages:
+  - translations
+  - publish
+
+publish_gem:
+  image: ruby
+  stage: publish
+  script:
+    - echo "---" > .credentials
+    - |
+      echo ":ci_rubygems_api_key: $GEM_HOST_API_KEY" >> .credentials
+    - chmod 0600 .credentials
+    - gem build decidim-decidim_better_accountability.gemspec
+    - gem push decidim-decidim_better_accountability-*.gem -k ci_rubygems_api_key --config-file .credentials
+  only:
+    - tags
+
+upload-translations:
+  stage: translations
+  image: node:16.18
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "schedule"'
+      when: never
+    - if: '$CI_COMMIT_BRANCH == "main"'
+      when: always
+    - if: '$CI_COMMIT_TAG'
+      when: always
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+      when: manual
+  script:
+    - npm install -g @crowdin/cli
+    - crowdin upload --no-progress
+    - crowdin status --no-progress
+
+# Create a MR with the new translation
+mr-translations:
+  stage: translations
+  image: node:16.18
+  needs: 
+    - "upload-translations"
+  before_script:
+    - apt-get update && apt-get install -y git
+  script:
+    - git config --global user.email "mr-translations"
+    - git config --global user.name "$GIT_USERNAME"
+    - npm install -g @crowdin/cli
+    - crowdin download --no-progress
+    - crowdin status --no-progress
+    - export BRANCH_NAME="i18n/$(date +%Y%m%d%H%M%S)"
+    - export ORIGIN="crowndin_$(date +%Y%m%d%H%M%S)"
+    - echo "add $ORIGIN=https://$GIT_USERNAME:$ACCESS_TOKEN@git.octree.ch/decidim/vocacity/decidim-modules/decidim-module-better-accountability.git"
+    - git remote add $ORIGIN https://$GIT_USERNAME:$ACCESS_TOKEN@git.octree.ch/decidim/vocacity/decidim-modules/decidim-module-better-accountability.git
+    - git checkout -b $BRANCH_NAME
+    - git add config/locales
+    - git commit -m "Update translations"
+    - git push $ORIGIN HEAD:$BRANCH_NAME -o merge_request.create -o merge_request.target=main

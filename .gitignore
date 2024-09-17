@@ -1,0 +1,25 @@
+/.bundle/
+/.yardoc
+/_yardoc/
+/coverage/
+/doc/
+/pkg/
+node_modules
+/spec/reports/
+/tmp/
+/vendor
+.migrations/
+# rspec failure tracking
+.rspec-failures
+.env.*
+!.env.sample
+# default test application
+spec/decidim_dummy_app
+.DS_Store
+.dump
+# default development application
+development_app
+
+# node_modules
+node_modules
+/.dump
