@@ -819,9 +819,9 @@ PLATFORMS
 DEPENDENCIES
   bootsnap (~> 1.4)
   byebug (~> 11.0)
-  decidim (= 0.27.6)
+  decidim (>= 0.27.4)
   decidim-decidim_better_accountability!
-  decidim-dev (= 0.27.6)
+  decidim-dev (>= 0.27.4)
   deface (>= 1.8.1)
   faker (~> 2.14)
   letter_opener_web (~> 1.3)

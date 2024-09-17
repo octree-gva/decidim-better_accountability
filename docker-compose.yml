@@ -1,4 +1,13 @@
 services:
+  # Install deps, and execute a rubocop auto-fix.
+  rubocop: 
+    image: ruby:3.0.7
+    working_dir: /root
+    volumes:
+      - .:/root
+      - bundle:/root/vendor
+    command: bundle && bundle exec rubocop -A .
+
   better_accountability:
     command: bash -c "sleep infinity"
     image: octree/decidim-dev:0.27
@@ -17,6 +26,8 @@ services:
       - RAILS_ENV=development
     ports:
       - 3000:3000
+    depends_on:
+      - rubocop
     links:
       - better-accountability-pg
 

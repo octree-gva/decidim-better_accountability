@@ -1,14 +1,30 @@
 variables:
-  CROWDIN_PROJECT_ID: $CROWDIN_PROJECT_ID
   CROWDIN_PERSONAL_TOKEN: $CROWDIN_PERSONAL_TOKEN
 
 stages:
+  - lint
   - translations
   - publish
 
+lint_ruby:
+  image: ruby:3.0.7
+  stage: lint
+  script:
+    - bundle
+    - bundle exec rubocop .
+
+lint_translation:
+  image: node:18.20
+  stage: lint
+  script:
+    - npm install -g @crowdin/cli
+    - crowdin config lint --no-progress || exit 1
+    
 publish_gem:
   image: ruby
   stage: publish
+  needs:
+    - "lint_ruby"
   script:
     - echo "---" > .credentials
     - |
@@ -22,6 +38,8 @@ publish_gem:
 upload-translations:
   stage: translations
   image: node:18.20
+  needs:
+    - "lint_translation"
   rules:
     - if: '$CI_PIPELINE_SOURCE == "schedule"'
       when: never
@@ -32,7 +50,6 @@ upload-translations:
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
       when: manual
   script:
-    - export CROWDIN_PERSONAL_TOKEN=$CROWDIN_PERSONAL_TOKEN
     - npm install -g @crowdin/cli
     - crowdin upload --no-progress
     - crowdin status --no-progress
@@ -42,6 +59,7 @@ mr-translations:
   stage: translations
   image: node:18.20
   needs: 
+    - "lint_ruby"
     - "upload-translations"
   before_script:
     - apt-get update && apt-get install -y git
