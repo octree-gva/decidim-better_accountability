@@ -10,8 +10,7 @@
             </h3>
           <% end %>
           <div class="result_card__description">
-            <%= decidim_sanitize_admin(translated_attribute(result.description)) %>
-              <%= cell "decidim/tags" , result, context: { extra_classes: ["result_card__description-tags"] } %>
+            <%= strip_tags(html_truncate(decidim_sanitize_admin(translated_attribute(result.description)), length: 500)) %>
           </div>
         </div>
         <div class="result_card__metas">
