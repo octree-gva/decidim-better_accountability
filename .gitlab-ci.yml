@@ -54,9 +54,6 @@ upload-translations:
 mr-translations:
   stage: translations
   image: node:18.20
-  needs: 
-    - "lint_ruby"
-    - "upload-translations"
   before_script:
     - apt-get update && apt-get install -y git
   script:
