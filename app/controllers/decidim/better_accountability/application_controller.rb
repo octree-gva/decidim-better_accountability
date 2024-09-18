@@ -1,7 +1,8 @@
-module Decidim
-    module BetterAccountability
-        class ApplicationController < Decidim::Components::BaseController
+# frozen_string_literal: true
 
-        end
+module Decidim
+  module BetterAccountability
+    class ApplicationController < Decidim::Components::BaseController
     end
+  end
 end

@@ -13,7 +13,6 @@ module Decidim
         ::Decidim::Accountability::ResultsController.helper(::Decidim::BetterAccountability::BetterAccountabilityHelper)
       end
 
-
       initializer "decidim_better_accountability.add_view_cells" do
         Cell::ViewModel.view_paths << File.expand_path("#{Decidim::BetterAccountability::Engine.root}/app/cells")
         Cell::ViewModel.view_paths << File.expand_path("#{Decidim::BetterAccountability::Engine.root}/app/views")
