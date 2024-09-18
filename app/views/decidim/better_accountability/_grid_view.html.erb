@@ -10,7 +10,7 @@
             </h3>
           <% end %>
           <div class="result_card__description">
-            <%= strip_tags(html_truncate(decidim_sanitize_admin(translated_attribute(result.description)), length: 500)) %>
+            <%= html_truncate(decidim_sanitize_admin(translated_attribute(result.description)), length: 150).html_safe %>
           </div>
         </div>
         <div class="result_card__metas">
