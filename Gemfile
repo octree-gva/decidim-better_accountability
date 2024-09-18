@@ -15,7 +15,7 @@ gem "bootsnap", "~> 1.4"
 gem "puma", ">= 5.5.1"
 gem "uglifier", "~> 4.1"
 
-gem "deface", ">= 1.8.1"
+gem "deface", ">= 1.9.0"
 gem "rubocop-faker"
 
 group :development, :test do

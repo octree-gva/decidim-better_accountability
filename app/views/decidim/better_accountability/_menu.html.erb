@@ -1,0 +1,14 @@
+<div class="better_accountability__menu">
+    <ul class="menu">
+        <li class="<%= "active" if better_view_grid? %>">
+            <%= link_to url_for(better_view: :grid), class: "menu__link" do %>
+                <%= icon("grid-two-up", aria_label: t("navigation.view.grid", scope: "decidim.better_accountability") )%>
+            <% end %>
+        </li>
+        <li class="<%= "active" if better_view_percentage? %>">
+            <%= link_to url_for(better_view: :percentage), class: "menu__link" do %>
+                <%= icon("bar-chart", aria_label: t("navigation.view.percentage", scope: "decidim.better_accountability") )%>
+            <% end %>
+        </li>
+    </ul>
+</div>

@@ -7,16 +7,16 @@ module Decidim
     # No need to mount, decidim-* modules are mounted by default.
     class Engine < ::Rails::Engine
       isolate_namespace Decidim::BetterAccountability
-      # routes do
-      #   # Custom routes
-      # end
-      # config.to_prepare do
-      #   # Decorators&Overrides injections
-      # end
-      # initializer "decidim_better_accountability.initialization" do
-      # end
+
+      config.to_prepare do
+        # Decorators&Overrides injections
+        ::Decidim::Accountability::ResultsController.helper(::Decidim::BetterAccountability::BetterAccountabilityHelper)
+      end
+
+
       initializer "decidim_better_accountability.add_view_cells" do
         Cell::ViewModel.view_paths << File.expand_path("#{Decidim::BetterAccountability::Engine.root}/app/cells")
+        Cell::ViewModel.view_paths << File.expand_path("#{Decidim::BetterAccountability::Engine.root}/app/views")
       end
 
       initializer "decidim_better_accountability.webpacker.assets_path" do

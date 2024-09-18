@@ -1,0 +1,55 @@
+.better-accountability .result_card {
+    @extend .card;
+    display: flex;
+    flex-direction: column;
+
+    &__content {
+        @extend .card__content;
+        flex: 1;
+    }
+    &__metas {
+        flex: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+    &__actions {
+        flex: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding-top: 1rem;
+        padding-bottom: 1rem;
+        a {
+            @extend .link;
+            flex: 0;
+            white-space: nowrap; 
+            display: inline-block; 
+        }
+    }
+    &__metas, 
+    &__actions {
+        border-top: 1px solid #e8e8e8;
+    }
+
+    &__status {
+        padding: 1.5rem;
+    }
+    &__statustitle {
+        font-weight: 600;
+    }
+    &__progress {
+        padding: 0.75rem 1.5rem;
+        display: flex;
+        gap: 0.75rem;
+        align-items: center;
+    }
+    &__progressbar {
+        flex: 1;
+        margin-bottom:0;
+        height: 0.5rem;
+    }
+    &__progressnumber{
+        font-weight: 600;
+    }
+}

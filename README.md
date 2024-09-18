@@ -18,7 +18,7 @@ This module is an experiment from Octree to improve the `decidim-accountability`
 ## Features
 
 **Add localization to Accountability's projects**<br />
-Every project can now be localized. They are compatible with []`decidim-geo`](https://git.octree.ch/decidim/decidim-module-geo/-/) module to them on a map!
+Every project can now be localized. They are compatible with [`decidim-geo`](https://git.octree.ch/decidim/decidim-module-geo/-/) module to them on a map!
 
 ---
 

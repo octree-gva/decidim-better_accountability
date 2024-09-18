@@ -3,6 +3,5 @@
 module Decidim
   module BetterAccountability
     include ActiveSupport::Configurable
-    class Error < StandardError; end
   end
 end
