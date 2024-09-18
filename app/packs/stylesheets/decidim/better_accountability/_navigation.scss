@@ -7,16 +7,17 @@
 
 .better_accountability__menu {
   float: right;
-  display: inline-block;
+  display: block;
   border: 1px solid #e8e8e8;
   border-radius: 4px;
   padding: 0.5rem;
   background: #e8e8e8;
   .menu li > a {
     padding: 1rem;
-    &.active {
-      background-color: var(--primary);
-    }
+  }
+  .menu li.active > a {
+    background-color: var(--primary);
+    color: white !important;
   }
   .menu li:first-child a {
     border-top-left-radius: 4px;
