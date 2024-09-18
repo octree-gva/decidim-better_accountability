@@ -1,6 +1,11 @@
 fr:
   decidim:
     better_accountability:
-      select_view:
-        grid: En Grille
-        percent: En pourcentage
+      navigation:
+        view:
+          grid: Show in grid
+          percentage: Show in percent
+        go_back: Go back to list
+      grid:
+        title: Projects
+        view_btn: "Voir le projet"
