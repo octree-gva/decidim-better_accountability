@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 Deface::Override.new(
   virtual_path: "decidim/accountability/results/_show_leaf",
   name: "better_accountability_remove_categories_leaf",

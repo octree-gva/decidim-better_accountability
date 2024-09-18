@@ -7,12 +7,15 @@
     "lib": "lib"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "format": "prettier -w app/packs/**"
   },
   "repository": {
     "type": "git",
     "url": "https://git.octree.ch/decidim/vocacity/decidim-modules/decidim-module-better-accountability"
   },
   "author": "Hadrien Froger",
-  "license": "AGPL-3.0"
+  "license": "AGPL-3.0",
+  "dependencies": {
+    "prettier": "^3.3.3"
+  }
 }

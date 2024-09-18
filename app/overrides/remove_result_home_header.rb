@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 Deface::Override.new(
   virtual_path: "decidim/accountability/results/_home_header",
   name: "better_accountability_surround_home_header",

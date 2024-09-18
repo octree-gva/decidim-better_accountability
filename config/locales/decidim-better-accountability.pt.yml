@@ -1,4 +1,4 @@
-en:
+pt:
   decidim:
     better_accountability:
       navigation:
@@ -8,4 +8,4 @@ en:
         go_back: Go back to list
       grid:
         title: Projects
-        view_btn: "See Project"
+        view_btn: "Ver o projeto"
