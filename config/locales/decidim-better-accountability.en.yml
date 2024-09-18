@@ -1,6 +1,12 @@
 en:
   decidim:
     better_accountability:
-      select_view:
-        grid: Show in grid
-        percent: Show in percent
+      navigation:
+        view:
+          grid: Show in grid
+          percentage: Show in percent
+        go_back: Go back to list
+
+      grid:
+        title: Projects
+        view_btn: "See project"

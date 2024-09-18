@@ -1,0 +1,15 @@
+<div class="better-accountability">
+    <%= render partial: "decidim/better_accountability/menu" %>
+    <div class="tabbed-result">
+        <% if better_view_grid? %>
+        <div class="tab tab--percent">
+            <%= render partial: "decidim/better_accountability/grid_view"  %>
+        </div>
+        <% end %>
+        <% if better_view_percentage? %>
+        <div class="tab tab--percent">
+            <%= render_original  %>
+        </div>
+        <% end %>
+    </div>
+</div>

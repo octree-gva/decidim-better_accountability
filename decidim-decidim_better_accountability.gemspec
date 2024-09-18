@@ -2,7 +2,7 @@
 
 $LOAD_PATH.push File.expand_path("lib", __dir__)
 
-require "decidim/better-accountability/version"
+require "decidim/better_accountability/version"
 
 Gem::Specification.new do |s|
   s.version = Decidim::BetterAccountability.version
@@ -23,7 +23,7 @@ Gem::Specification.new do |s|
   s.add_dependency "decidim-admin", Decidim::BetterAccountability.decidim_version
   s.add_dependency "decidim-comments", Decidim::BetterAccountability.decidim_version
   s.add_dependency "decidim-core", Decidim::BetterAccountability.decidim_version
-  s.add_dependency "deface", ">= 1.8.1"
+  s.add_dependency "deface", ">= 1.9.0"
 
   s.add_development_dependency "decidim-dev", Decidim::BetterAccountability.decidim_version
   s.add_development_dependency "rubocop-faker"

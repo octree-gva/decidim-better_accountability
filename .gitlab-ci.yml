@@ -23,8 +23,6 @@ lint_translation:
 publish_gem:
   image: ruby
   stage: publish
-  needs:
-    - "lint_ruby"
   script:
     - echo "---" > .credentials
     - |
@@ -38,8 +36,6 @@ publish_gem:
 upload-translations:
   stage: translations
   image: node:18.20
-  needs:
-    - "lint_translation"
   rules:
     - if: '$CI_PIPELINE_SOURCE == "schedule"'
       when: never
