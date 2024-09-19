@@ -84,17 +84,15 @@ crowdin::merge_request:
   before_script:
     - apt-get update && apt-get install -y git
   script:
-    - git config --global user.email "mr-translations"
-    - git config --global user.name "$GIT_USERNAME"
+    - git config --global user.email "$GITLAB_USER_EMAIL"
+    - git config --global user.name "$GITLAB_USER_NAME"
     - npm install -g @crowdin/cli
     - crowdin download -T $CROWDIN_PERSONAL_TOKEN -i $CROWDIN_PROJECT_ID --no-progress
     - crowdin status -T $CROWDIN_PERSONAL_TOKEN -i $CROWDIN_PROJECT_ID --no-progress
     - export BRANCH_NAME="i18n/$(date +%Y%m%d%H%M%S)"
     - export ORIGIN="crowndin_$(date +%Y%m%d%H%M%S)"
-    - echo "add $ORIGIN=https://$GIT_USERNAME:$ACCESS_TOKEN@git.octree.ch/$CI_PROJECT_PATH.git"
-    - git config --global user.email "hadrien+crowdinbot@octree.ch"
-    - git config --global user.name "Crowdin Bot"
-    - git remote add $ORIGIN https://$GIT_USERNAME:$ACCESS_TOKEN@git.octree.ch/$CI_PROJECT_PATH.git
+    - echo "add $ORIGIN=$CI_REPOSITORY_URL"
+    - git remote add $ORIGIN $CI_REPOSITORY_URL
     - git checkout -b $BRANCH_NAME
     - git add config/locales
     - git commit -m "Update translations"
