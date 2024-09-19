@@ -15,12 +15,12 @@ Deface::Override.new(
   replace: "erb[loud]:contains('link_to result')",
   closing_selector: "erb[silent]:contains('end')",
   text: <<~ERB
-    <%= link_to result_path(result, better_view: :percentage), class: "card--list__text card__link card__link--block deface-override" do %>
+    <%= link_to result_path(result, better_view: :percentage), class: "card--list__text card__link card__link--block" do %>
         <h3 class="card--list__heading">
             <%= translated_attribute result.title %>
         </h3>
-
-        <span class="text-small"><%= heading_leaf_level_results(result.children.count) %></span><% end %>
+        <span class="text-small"><%= heading_leaf_level_results(result.children.count) %></span>
+    <% end %>
   ERB
 )
 

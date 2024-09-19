@@ -1,4 +1,8 @@
-<%= render partial: "decidim/accountability/results/home_header" %>
+<div class="accountability">
+  <div class="intro">
+    <%= render partial: "decidim/accountability/results/home_header" %>
+  </div>
+</div>
   <h2 class="projects-grid__title"><%= t("grid.title", scope: "decidim.better_accountability" )%></h2>
   <section class="projects-grid">
     <% results.each do |result| %>
