@@ -2,11 +2,26 @@
   @extend .card;
   display: flex;
   flex-direction: column;
+  max-width: 100%;
 
-  &__content {
-    padding: 1.5rem;
+  &__header{
+    border-bottom: 1px solid #e8e8e8;
+  }
+  &__headertext {
+    overflow: hidden; 
+    margin-bottom: 0;
+    white-space: nowrap; 
+    text-overflow: ellipsis; 
+    display: inline-block; 
+    max-width: 100%; 
+  }
+  &__description {
     flex: 1;
   }
+  &__header, &__description {
+    padding: 1rem 1.5rem;
+  }
+
   &__metas {
     flex: 0;
     display: flex;
@@ -33,7 +48,7 @@
   }
 
   &__status {
-    padding: 1.5rem;
+    padding: 1rem 1.5rem;
   }
   &__statustitle {
     font-weight: 600;
@@ -50,6 +65,7 @@
     &,
     .progress-meter {
       height: 0.5rem !important;
+      min-height: 0.5rem !important;
     }
   }
 

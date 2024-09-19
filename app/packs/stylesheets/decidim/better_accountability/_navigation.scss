@@ -24,6 +24,9 @@
   .menu li.active > a {
     background-color: var(--primary);
     color: white !important;
+    &.active {
+      background-color: var(--primary);
+    }
   }
   .menu li:first-child a {
     border-top-left-radius: 4px;
