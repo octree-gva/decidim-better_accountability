@@ -8,4 +8,4 @@ pt:
         go_back: Go back to list
       grid:
         title: Projects
-        view_btn: "Ver o projeto"
+        view_btn: "See Project"
