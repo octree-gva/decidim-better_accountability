@@ -7,15 +7,13 @@
   <section class="projects-grid">
     <% results.each do |result| %>
       <div class="result_card">
-        <div class="result_card__content">
-          <%= link_to result_path(result, **pagination_params), class: "result_card__header" do %>
-            <h3 class="result_card__headertext">
-              <%= translated_attribute(result.title) %>
-            </h3>
-          <% end %>
-          <div class="result_card__description">
-            <%= html_truncate(decidim_sanitize_admin(translated_attribute(result.description)), length: 150).html_safe %>
-          </div>
+        <%= link_to result_path(result, **pagination_params), class: "result_card__header" do %>
+          <h3 class="result_card__headertext">
+            <%= translated_attribute(result.title) %>
+          </h3>
+        <% end %>
+        <div class="result_card__description">
+          <%= html_truncate(decidim_sanitize_admin(translated_attribute(result.description)), length: 150).html_safe %>
         </div>
         <div class="result_card__metas">
           <% if result.status %>

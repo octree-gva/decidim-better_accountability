@@ -4,7 +4,7 @@
   grid-template-rows: repeat(12, auto);
   gap: 1rem;
   @include breakpoint(medium up) {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(3, 33.33333%);
     grid-template-rows: repeat(4, auto);
   }
   &__title {
