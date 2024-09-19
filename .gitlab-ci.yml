@@ -91,9 +91,9 @@ crowdin::merge_request:
     - crowdin status -T $CROWDIN_PERSONAL_TOKEN -i $CROWDIN_PROJECT_ID --no-progress
     - export BRANCH_NAME="i18n/$(date +%Y%m%d%H%M%S)"
     - export ORIGIN="crowndin_$(date +%Y%m%d%H%M%S)"
-    - echo "add $ORIGIN=$CI_REPOSITORY_URL"
+    - echo "$GITLAB_USER_NAME, $GITLAB_USER_EMAIL will push $BRANCH_NAME in $CI_REPOSITORY_URL"
     - git remote add $ORIGIN $CI_REPOSITORY_URL
     - git checkout -b $BRANCH_NAME
     - git add config/locales
-    - git commit -m "Update translations"
+    - git commit -m "Crowdin Updates"
     - git push $ORIGIN HEAD:$BRANCH_NAME -o merge_request.create -o merge_request.target=main
