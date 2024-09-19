@@ -46,6 +46,7 @@ upload-translations:
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
       when: manual
   script:
+    - export CROWDIN_PERSONAL_TOKEN=$CROWDIN_PERSONAL_TOKEN 
     - npm install -g @crowdin/cli
     - crowdin upload --no-progress
     - crowdin status --no-progress
