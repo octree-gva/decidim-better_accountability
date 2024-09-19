@@ -12,24 +12,21 @@
   border-radius: 4px;
   padding: 0.5rem;
   background: #e8e8e8;
+  &--mobile {
+    margin-top: 2rem;
+  }
+  ul.menu {
+    margin-bottom: 0 !important;
+  }
   .menu li > a {
     padding: 1rem;
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 261ad76 (fix: active menu)
   }
   .menu li.active > a {
     background-color: var(--primary);
     color: white !important;
-<<<<<<< HEAD
-=======
     &.active {
       background-color: var(--primary);
     }
->>>>>>> fd6520b (fix: decidim-theme compat)
-=======
->>>>>>> 261ad76 (fix: active menu)
   }
   .menu li:first-child a {
     border-top-left-radius: 4px;
