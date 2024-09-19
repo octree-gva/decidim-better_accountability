@@ -82,6 +82,8 @@ crowdin::upload:
 crowdin::merge_request:
   stage: translate
   image: node:18.20
+  needs:
+    - crowdin::upload
   extends: .publication_rules
   before_script:
     - apt-get update && apt-get install -y git
