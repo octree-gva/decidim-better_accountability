@@ -37,6 +37,8 @@ lint_translation:
       when: always
   script:
     - npm install -g @crowdin/cli
+    - echo "====== CROWDIN_PROJECT_ID ===="
+    - echo $CROWDIN_PROJECT_ID
     - crowdin config lint --no-progress || exit 1
     - crowdin status -T $CROWDIN_PERSONAL_TOKEN -i $CROWDIN_PROJECT_ID --no-progress || exit 1
     
