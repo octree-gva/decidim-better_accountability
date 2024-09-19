@@ -78,7 +78,7 @@ crowdin::upload:
 # Create a Merge request in the project with updated 
 # crowndin translations.
 crowdin::merge_request:
-  stage: translate
+  stage: lint
   image: node:18.20
   extends: .publication_rules
   before_script:
