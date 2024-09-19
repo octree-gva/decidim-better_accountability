@@ -70,20 +70,17 @@ ruby::rubygem:
 crowdin::upload:
   stage: translate
   image: node:18.20
-  extends: .publication_rules
   script:
     - npm install -g @crowdin/cli
     - crowdin upload -T $CROWDIN_PERSONAL_TOKEN -i $CROWDIN_PROJECT_ID --no-progress
     - crowdin status -T $CROWDIN_PERSONAL_TOKEN -i $CROWDIN_PROJECT_ID --no-progress
-
+  when: manual
 ##
 # Create a Merge request in the project with updated 
 # crowndin translations.
 crowdin::merge_request:
   stage: translate
   image: node:18.20
-  needs:
-    - crowdin::upload
   extends: .publication_rules
   before_script:
     - apt-get update && apt-get install -y git
