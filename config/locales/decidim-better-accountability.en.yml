@@ -3,9 +3,9 @@ en:
     better_accountability:
       navigation:
         view:
-          grid: Show in grid
-          percentage: Show in percent
-        go_back: Go back to list
+          grid: View in grid
+          percentage: View in percentage
+        go_back: Back to projects
       grid:
         title: Projects
         view_btn: "See Project"

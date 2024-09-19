@@ -3,9 +3,9 @@ fr:
     better_accountability:
       navigation:
         view:
-          grid: Show in grid
-          percentage: Show in percent
-        go_back: Go back to list
+          grid: Passer en mode grille
+          percentage: Passer en mode pourcentage
+        go_back: Retour
       grid:
-        title: Projects
+        title: Tous les projets
         view_btn: "Voir le projet"
