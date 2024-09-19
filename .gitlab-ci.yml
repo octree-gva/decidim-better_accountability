@@ -1,11 +1,16 @@
+##
+# Set of re-usable rules for decidim module development. 
+# You are required to set the following CI/CD variables: 
+# 
+# - CROWDIN_PERSONAL_TOKEN: protected & masked. // API Token from crowdin
+# - CROWDIN_PROJECT_ID: masked. // Project ID from crowdin
+# - GEM_HOST_API_KEY: protected & masked. // 
 stages:
   - lint
-  - translations
+  - translate
   - publish
 
-lint_ruby:
-  image: ruby:3.0.7
-  stage: lint
+.development_rules:  
   rules:
     - if: '$CI_PIPELINE_SOURCE == "schedule"'
       when: never
@@ -15,30 +20,38 @@ lint_ruby:
       when: always
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
       when: always
+.publication_rules:
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "schedule"'
+      when: never
+    - if: '$CI_COMMIT_BRANCH == "main"'
+      when: always
+    - if: '$CI_COMMIT_TAG'
+      when: always
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+      when: manual
+##
+# Lint ruby code
+ruby::rubocop:  
+  extends: .development_rules
+  image: ruby:3.0.7
+  stage: lint
   script:
     - bundle
     - bundle exec rubocop .
-
-lint_translation:
+##
+# Lint crowdin.yml configuration file
+crowdin::lint:  
+  extends: .development_rules
   image: node:18.20
   stage: lint
-  rules:
-    - if: '$CI_PIPELINE_SOURCE == "schedule"'
-      when: never
-    - if: '$CI_COMMIT_BRANCH == "main"'
-      when: always
-    - if: '$CI_COMMIT_TAG'
-      when: always
-    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
-      when: always
   script:
     - npm install -g @crowdin/cli
-    - echo "====== CROWDIN_PROJECT_ID ===="
-    - echo $CROWDIN_PROJECT_ID
     - crowdin config lint --no-progress || exit 1
     - crowdin status -T $CROWDIN_PERSONAL_TOKEN -i $CROWDIN_PROJECT_ID --no-progress || exit 1
-    
-publish_gem:
+##
+# Publish the gem un ruby gem.
+ruby::rubygem:
   image: ruby
   stage: publish
   script:
@@ -50,38 +63,24 @@ publish_gem:
     - gem push decidim-decidim_better_accountability-*.gem -k ci_rubygems_api_key --config-file .credentials
   only:
     - tags
-
-upload-translations:
-  stage: translations
+##
+# Upload new translation keys to crowdin
+crowdin::upload:
+  stage: translate
   image: node:18.20
-  rules:
-    - if: '$CI_PIPELINE_SOURCE == "schedule"'
-      when: never
-    - if: '$CI_COMMIT_BRANCH == "main"'
-      when: always
-    - if: '$CI_COMMIT_TAG'
-      when: always
-    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
-      when: manual
+  extends: .publication_rules
   script:
-    - export CROWDIN_PERSONAL_TOKEN=$CROWDIN_PERSONAL_TOKEN 
     - npm install -g @crowdin/cli
     - crowdin upload -T $CROWDIN_PERSONAL_TOKEN -i $CROWDIN_PROJECT_ID --no-progress
     - crowdin status -T $CROWDIN_PERSONAL_TOKEN -i $CROWDIN_PROJECT_ID --no-progress
 
-# Create a MR with the new translation
-mr-translations:
-  stage: translations
+##
+# Create a Merge request in the project with updated 
+# crowndin translations.
+crowdin::merge_request:
+  stage: translate
   image: node:18.20
-  rules:
-    - if: '$CI_PIPELINE_SOURCE == "schedule"'
-      when: never
-    - if: '$CI_COMMIT_BRANCH == "main"'
-      when: always
-    - if: '$CI_COMMIT_TAG'
-      when: always
-    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
-      when: never
+  extends: .publication_rules
   before_script:
     - apt-get update && apt-get install -y git
   script:
@@ -89,11 +88,13 @@ mr-translations:
     - git config --global user.name "$GIT_USERNAME"
     - npm install -g @crowdin/cli
     - crowdin download -T $CROWDIN_PERSONAL_TOKEN -i $CROWDIN_PROJECT_ID --no-progress
-    - crowdin status --T $CROWDIN_PERSONAL_TOKEN -i $CROWDIN_PROJECT_ID -no-progress
+    - crowdin status -T $CROWDIN_PERSONAL_TOKEN -i $CROWDIN_PROJECT_ID --no-progress
     - export BRANCH_NAME="i18n/$(date +%Y%m%d%H%M%S)"
     - export ORIGIN="crowndin_$(date +%Y%m%d%H%M%S)"
-    - echo "add $ORIGIN=https://$GIT_USERNAME:$ACCESS_TOKEN@git.octree.ch/decidim/vocacity/decidim-modules/decidim-module-better-accountability.git"
-    - git remote add $ORIGIN https://$GIT_USERNAME:$ACCESS_TOKEN@git.octree.ch/decidim/vocacity/decidim-modules/decidim-module-better-accountability.git
+    - echo "add $ORIGIN=https://$GIT_USERNAME:$ACCESS_TOKEN@git.octree.ch/$CI_PROJECT_PATH.git"
+    - git config --global user.email "hadrien+crowdinbot@octree.ch"
+    - git config --global user.name "Crowdin Bot"
+    - git remote add $ORIGIN https://$GIT_USERNAME:$ACCESS_TOKEN@git.octree.ch/$CI_PROJECT_PATH.git
     - git checkout -b $BRANCH_NAME
     - git add config/locales
     - git commit -m "Update translations"
