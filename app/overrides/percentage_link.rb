@@ -27,7 +27,8 @@ Deface::Override.new(
 Deface::Override.new(
   virtual_path: "decidim/accountability/results/_results_leaf",
   name: "better_accountability_replace_results_leaf",
-  insert_after: "erb[loud]:contains('link_to result_path(result)')",
+  replace: "erb[loud]:contains('link_to result_path(result)')",
+  closing_selector: "erb[silent]:contains('end')",
   text: <<~ERB
     <%= link_to result_path(result, **pagination_params, better_view: better_view_params), class: "card--list__text card__link card__link--block deface-override" do %>
         <h4 class="card--list__heading">
