@@ -4,8 +4,8 @@ en:
       navigation:
         view:
           grid: View in grid
-          percentage: View in percentage
-        go_back: Back to projects
+          percentage: Vire in percentage
+        go_back: Back to Projects
       grid:
         title: Projects
         view_btn: "See Project"
