@@ -1,5 +1,6 @@
 variables:
   CROWDIN_PERSONAL_TOKEN: $CROWDIN_PERSONAL_TOKEN
+  CROWDIN_PROJECT_ID: $CROWDIN_PROJECT_ID
 
 stages:
   - lint
@@ -37,6 +38,7 @@ lint_translation:
   script:
     - npm install -g @crowdin/cli
     - crowdin config lint --no-progress || exit 1
+    - crowdin status -T $CROWDIN_PERSONAL_TOKEN -i $CROWDIN_PROJECT_ID --no-progress || exit 1
     
 publish_gem:
   image: ruby
@@ -66,8 +68,8 @@ upload-translations:
   script:
     - export CROWDIN_PERSONAL_TOKEN=$CROWDIN_PERSONAL_TOKEN 
     - npm install -g @crowdin/cli
-    - crowdin upload --no-progress
-    - crowdin status --no-progress
+    - crowdin upload -T $CROWDIN_PERSONAL_TOKEN -i $CROWDIN_PROJECT_ID --no-progress
+    - crowdin status -T $CROWDIN_PERSONAL_TOKEN -i $CROWDIN_PROJECT_ID --no-progress
 
 # Create a MR with the new translation
 mr-translations:
@@ -88,8 +90,8 @@ mr-translations:
     - git config --global user.email "mr-translations"
     - git config --global user.name "$GIT_USERNAME"
     - npm install -g @crowdin/cli
-    - crowdin download --no-progress
-    - crowdin status --no-progress
+    - crowdin download -T $CROWDIN_PERSONAL_TOKEN -i $CROWDIN_PROJECT_ID --no-progress
+    - crowdin status --T $CROWDIN_PERSONAL_TOKEN -i $CROWDIN_PROJECT_ID -no-progress
     - export BRANCH_NAME="i18n/$(date +%Y%m%d%H%M%S)"
     - export ORIGIN="crowndin_$(date +%Y%m%d%H%M%S)"
     - echo "add $ORIGIN=https://$GIT_USERNAME:$ACCESS_TOKEN@git.octree.ch/decidim/vocacity/decidim-modules/decidim-module-better-accountability.git"
