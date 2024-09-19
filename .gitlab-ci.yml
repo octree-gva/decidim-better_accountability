@@ -4,6 +4,7 @@
 # 
 # - CROWDIN_PERSONAL_TOKEN: protected & masked. // API Token from crowdin
 # - CROWDIN_PROJECT_ID: masked. // Project ID from crowdin
+# - TRANSLATION_ACCESS_TOKEN: masked. // Project Token with name `mr-translations`
 # - GEM_HOST_API_KEY: protected & masked. // 
 stages:
   - lint
@@ -84,15 +85,15 @@ crowdin::merge_request:
   before_script:
     - apt-get update && apt-get install -y git
   script:
-    - git config --global user.email "$GITLAB_USER_EMAIL"
-    - git config --global user.name "$GITLAB_USER_NAME"
+    - git config --global user.email "mr-translations"
+    - git config --global user.name "$TRANSLATION_ACCESS_TOKEN_ID"
     - npm install -g @crowdin/cli
     - crowdin download -T $CROWDIN_PERSONAL_TOKEN -i $CROWDIN_PROJECT_ID --no-progress
     - crowdin status -T $CROWDIN_PERSONAL_TOKEN -i $CROWDIN_PROJECT_ID --no-progress
     - export BRANCH_NAME="i18n/$(date +%Y%m%d%H%M%S)"
     - export ORIGIN="crowndin_$(date +%Y%m%d%H%M%S)"
-    - echo "$GITLAB_USER_NAME, $GITLAB_USER_EMAIL will push $BRANCH_NAME in $CI_REPOSITORY_URL"
-    - git remote add $ORIGIN $CI_REPOSITORY_URL
+    - echo "add $ORIGIN=https://$TRANSLATION_ACCESS_TOKEN_ID:$TRANSLATION_ACCESS_TOKEN@git.octree.ch/$CI_PROJECT_PATH.git"
+    - git remote add $ORIGIN https://$TRANSLATION_ACCESS_TOKEN_ID:$TRANSLATION_ACCESS_TOKEN@git.octree.ch/$CI_PROJECT_PATH.git
     - git checkout -b $BRANCH_NAME
     - git add config/locales
     - git commit -m "Crowdin Updates"
