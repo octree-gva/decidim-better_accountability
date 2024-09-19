@@ -5,7 +5,7 @@ fr:
         view:
           grid: Passer en mode grille
           percentage: Passer en mode pourcentage
-        go_back: Retour
+        go_back: Retour aux projets
       grid:
         title: Tous les projets
         view_btn: "Voir le projet"
