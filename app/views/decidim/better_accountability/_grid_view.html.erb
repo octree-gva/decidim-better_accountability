@@ -5,7 +5,7 @@
 </div>
   <h2 class="projects-grid__title"><%= t("grid.title", scope: "decidim.better_accountability" )%></h2>
   <section class="projects-grid">
-    <% results.each do |result| %>
+    <% results.where(parent: nil).each do |result| %>
       <div class="result_card">
         <%= link_to result_path(result, **pagination_params), class: "result_card__header" do %>
           <h3 class="result_card__headertext">

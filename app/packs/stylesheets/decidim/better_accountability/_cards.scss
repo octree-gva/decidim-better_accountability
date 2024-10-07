@@ -1,5 +1,13 @@
 .better-accountability .result_card {
-  @extend .card;
+  margin-bottom: $card-margin-bottom;
+  background: white;
+  border: #e8e8e8;
+  border-radius: 4px;
+  // Keep visible for accessibility (active/focused card as a link)
+  overflow: visible;
+  overflow-wrap: break-word;
+  hyphens: auto;
+
   display: flex;
   flex-direction: column;
   max-width: 100%;
