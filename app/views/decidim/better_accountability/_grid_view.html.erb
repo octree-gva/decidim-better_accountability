@@ -48,6 +48,6 @@
       <% end %>
   </section>
 <div class="projects-grid__pagination">
-  <%= decidim_paginate results, order_start_time: params[:order_start_time], with_scope: params.dig(:filter,
+  <%= decidim_paginate results.where(parent: nil), order_start_time: params[:order_start_time], with_scope: params.dig(:filter,
   :with_scope), better_view: :grid %>
 </div>
