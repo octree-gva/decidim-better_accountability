@@ -1,0 +1,14 @@
+<% if better_view_grid? %>
+  <div class="tab tab--grid">
+      <%= render layout: "layouts/decidim/shared/layout_center" do %>
+          <%= render partial: "decidim/better_accountability/grid_view"  %>
+      <% end %>
+  </div>
+<% end %>
+<% if better_view_percentage? %>
+  <div class="tab tab--percent">
+    <%= render layout: "layouts/decidim/shared/layout_two_col" do %>
+      <%= yield  %>
+    <% end %>
+  </div>
+<% end %>

@@ -1,0 +1,30 @@
+<% reverse ||= false %>
+
+<div class="better-accountability">
+  <%= render partial: "decidim/better_accountability/menu", locals: {additional_classes: "show-for-medium"} %>
+  <div class="tabbed-result">
+      <% if better_view_grid? %>
+      <div class="tab tab--percent">
+          <div class="layout-1col cols-10">
+            <%= content_tag :main, class: "layout-1col__main layout-1col__main--better_accountability" do %>
+              <%= content_for :flash_messages %>
+              <%= render partial: "decidim/better_accountability/grid_view"  %>
+            <% end %>
+          </div>
+      </div>
+      <% end %>
+      <% if better_view_percentage? %>
+      <div class="tab tab--percent">
+        <div class="layout-2col<%= " layout-2col__reverse" if reverse %>">
+          <aside class="layout-2col__aside deface--override">
+            <%= yield :aside %>
+          </aside>
+          <%= content_tag :div, class: "layout-2col__main" do %>
+            <%= content_for :flash_messages %>
+            <%= yield %>
+          <% end %>
+        </div>
+      </div>
+      <% end %>
+  </div>
+</div>

@@ -17,7 +17,9 @@ module Decidim
         Cell::ViewModel.view_paths << File.expand_path("#{Decidim::BetterAccountability::Engine.root}/app/cells")
         Cell::ViewModel.view_paths << File.expand_path("#{Decidim::BetterAccountability::Engine.root}/app/views")
       end
-
+      initializer "decidim_beeter_accountability.icons" do 
+        Decidim.icons.register(name: "layout-grid", icon: "layout-grid", category: "system", description: "", engine: :core)
+      end
       initializer "decidim_better_accountability.webpacker.assets_path" do
         Decidim.register_assets_path File.expand_path("#{Decidim::BetterAccountability::Engine.root}/app/packs")
       end

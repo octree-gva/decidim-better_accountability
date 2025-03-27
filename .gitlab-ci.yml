@@ -36,7 +36,7 @@ stages:
 # Lint ruby code
 ruby::rubocop:  
   extends: .development_rules
-  image: ruby:3.0.7
+  image: ruby:3.2.7
   stage: lint
   script:
     - bundle

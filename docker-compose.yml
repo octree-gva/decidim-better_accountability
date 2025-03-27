@@ -1,16 +1,8 @@
 services:
-  # Install deps, and execute a rubocop auto-fix.
-  rubocop: 
-    image: ruby:3.0.7
-    working_dir: /root
-    volumes:
-      - .:/root
-      - bundle:/root/vendor
-    command: bundle && bundle exec rubocop -A .
-
-  better_accountability:
+  decidim-better-acccountability:
+    container_name: decidim-better-acccountability
     command: bash -c "sleep infinity"
-    image: octree/decidim-dev:0.27
+    image: octree/decidim-dev:0.29
     entrypoint: ""
     volumes:
       - .:/home/decidim/module
@@ -26,15 +18,16 @@ services:
       - RAILS_ENV=development
     ports:
       - 3000:3000
-    depends_on:
-      - rubocop
     links:
+      - better-accountability-pg
+    depends_on:
       - better-accountability-pg
 
   better-accountability-pg:
-    image: postgres:15
+    container_name: better-accountability-pg
+    image: postgres:16
     volumes:
-      - better_accountability-pg-data:/var/lib/postgresql/data
+      - better-acccountability-pg-data:/var/lib/postgresql/data
     environment:
       - POSTGRES_DATABASE=decidim
       - POSTGRES_USER=decidim
@@ -43,4 +36,4 @@ services:
 volumes:
   node_modules: {}
   bundle: {}
-  better_accountability-pg-data: {}
+  better-acccountability-pg-data: {}

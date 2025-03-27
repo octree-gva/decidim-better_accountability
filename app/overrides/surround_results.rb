@@ -3,6 +3,13 @@
 Deface::Override.new(
   virtual_path: "decidim/accountability/results/home",
   name: "better_accountability_surround_home",
-  surround: ".row.accountability",
-  partial: "decidim/better_accountability/around_home"
+  replace: "erb[loud]:contains('layouts/decidim/shared/layout_two_col')",
+  text: "<%= render layout: 'layouts/decidim/better_accountability/around_home' do %>"
+)
+
+Deface::Override.new(
+  virtual_path: "decidim/accountability/results/_project",
+  name: "better_accountability_back_link",
+  replace: "erb[loud]:contains('layouts/decidim/shared/layout_item')",
+  text: "<%= render layout: 'layouts/decidim/better_accountability/layout_item' do %>"
 )
