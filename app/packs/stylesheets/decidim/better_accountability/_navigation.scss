@@ -6,16 +6,12 @@
   color: var(--secondary);
   fill: var(--secondary);
   align-self: flex-start;
-  position: absolute;
-  top: 2rem;
-  left: 0;
+  @apply absolute top-4 left-3 lg:left-0;
 }
 
 .better_accountability__menu {
-  position: absolute;
-  top: 3rem;
-  right: 2rem;
-  display: block;
+  @apply absolute top-6 right-3 md:right-6 md:top-6;
+  display: inline-block;
   padding: 0.5rem;
   &--mobile {
     margin-top: 2rem;
