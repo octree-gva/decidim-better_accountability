@@ -3,23 +3,39 @@
   gap: 0.5rem;
   align-items: center;
   margin-bottom: 1rem;
+  color: var(--secondary);
+  fill: var(--secondary);
+  align-self: flex-start;
+  @apply absolute top-4 left-3 lg:left-0;
 }
 
 .better_accountability__menu {
-  float: right;
-  display: block;
-  border: 1px solid #e8e8e8;
-  border-radius: 4px;
+  @apply absolute top-6 right-3 md:right-6 md:top-6;
+  display: inline-block;
   padding: 0.5rem;
-  background: #e8e8e8;
   &--mobile {
     margin-top: 2rem;
   }
   ul.menu {
     margin-bottom: 0 !important;
+    display: flex;
+    gap: 0.25rem;
+    padding: 0;
+    background: #e8e8e8;
+    border: 1px solid #e8e8e8;
+    border-radius: 4px;
+    li {
+      padding: 0;
+      margin: 0;
+    }
   }
   .menu li > a {
+    display: inline-flex;
+    gap: 0.25rem;
     padding: 1rem;
+    & > svg {
+      width: 16px;
+    }
   }
   .menu li.active > a {
     background-color: var(--primary);

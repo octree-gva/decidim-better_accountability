@@ -1,15 +1,8 @@
-.better-accountability .result_card {
-  margin-bottom: $card-margin-bottom;
-  background: white;
-  border: #e8e8e8;
-  border-radius: 4px;
-  display: flex;
-  flex-direction: column;
-  max-width: 100%;
 
-  &__header{
-    border-bottom: 1px solid #e8e8e8;
-  }
+.better-accountability .result_card {
+  @apply card__grid;
+
+
   &__headertext {
     overflow: hidden; 
     margin-bottom: 0;
@@ -17,47 +10,32 @@
     text-overflow: ellipsis; 
     display: inline-block; 
     max-width: 100%; 
+    @apply h4 text-secondary;
   }
   &__description {
     flex: 1;
   }
-  &__header, &__description {
+  &__header {
     padding: 1rem 1.5rem;
   }
-
+  &__description {
+    padding: 0 1.5rem 1rem 1.5rem;
+  }
   &__metas {
     flex: 0;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
   }
-  &__actions {
-    flex: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding-top: 1rem;
-    padding-bottom: 1rem;
-    a {
-      @extend .link;
-      flex: 0;
-      white-space: nowrap;
-      display: inline-block;
-    }
-  }
-  &__metas,
-  &__actions {
-    border-top: 1px solid #e8e8e8;
-  }
 
   &__status {
-    padding: 1rem 1.5rem;
+    padding: 0 1.5rem;
   }
   &__statustitle {
     font-weight: 600;
   }
   &__progress {
-    padding: 0.75rem 1.5rem;
+    padding: 0 1.5rem 0.75rem 1.5rem;
     display: flex;
     gap: 0.75rem;
     align-items: center;
@@ -65,11 +43,20 @@
   &__progressbar {
     flex: 1;
     margin-bottom: 0;
+    background-color: rgb(40 167 69 / var(--tw-bg-opacity, 0.15));
+    
     &,
     .progress-meter {
-      height: 0.5rem !important;
-      min-height: 0.5rem !important;
+      height: 8px;
+      min-height: 8px;
+      border: 0px solid transparent;
+      border-radius: 8px;
     }
+
+    .progress-meter {
+      background-color: rgb(40 167 69 / var(--tw-bg-opacity, 1));
+    }
+
   }
 
   &__progressnumber {

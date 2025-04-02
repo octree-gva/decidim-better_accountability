@@ -1,12 +1,31 @@
+
+.tabbed-result .tab.tab--percent .layout-2col__main{
+  @apply pt-32 lg:pt-16;  
+}
+
+.tabbed-result .tab.tab--percent .layout-2col__aside{
+  @apply pt-32 lg:pt-16;  
+}
+.layout-1col__main--better_accountability {
+  margin-top: 3rem;
+}
+.layout-item--better-accountability {
+  position: relative;
+  @apply pt-16 lg:pt-6;
+}
+.layout-1col__main--better_accountability .title-decorator{
+  @apply mt-16 lg:mt-16;
+}
+.editor-content--better_accountability {
+  @apply mt-6;
+}
 .projects-grid {
   display: grid;
   grid-template-columns: repeat(1, 100%);
   grid-template-rows: repeat(12, auto);
-  gap: 1rem;
-  @include breakpoint(medium up) {
-    grid-template-columns: repeat(3, 33.33333%);
-    grid-template-rows: repeat(4, auto);
-  }
+  gap: 3rem;
+  @apply grid-cols-1 auto-rows-max md:grid-cols-2 lg:grid-cols-3;
+
   &__title {
     margin-bottom: 1rem;
   }

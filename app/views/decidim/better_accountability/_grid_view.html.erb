@@ -1,17 +1,16 @@
-<div class="accountability">
-  <div class="intro">
-    <%= render partial: "decidim/accountability/results/home_header" %>
-  </div>
-</div>
-  <h2 class="projects-grid__title"><%= t("grid.title", scope: "decidim.better_accountability" )%></h2>
+<section class="layout-main__section">
+  <h1 class="title-decorator"><%= component_name %></h1>
+  <div class="editor-content editor-content--better_accountability"><%= decidim_sanitize_admin translated_attribute(component_settings.intro) %></div>
+</section>
+<section class="layout-main__section">
   <section class="projects-grid">
     <% results.where(parent: nil).each do |result| %>
-      <div class="result_card">
-        <%= link_to result_path(result, **pagination_params), class: "result_card__header" do %>
-          <h3 class="result_card__headertext">
+      <%= link_to result_path(result, **pagination_params, better_view: :grid ), class: "result_card" do %>
+        <div class ="result_card__header">
+          <h4 class="result_card__headertext">
             <%= translated_attribute(result.title) %>
-          </h3>
-        <% end %>
+          </h4>
+        </div>
         <div class="result_card__description">
           <%= html_truncate(decidim_sanitize_admin(translated_attribute(result.description)), length: 150).html_safe %>
         </div>
@@ -42,12 +41,11 @@
               </div>
             <% end %>
           </div>
-          <%= link_to t("grid.view_btn", scope: "decidim.better_accountability" ), result_path(result, better_view: :grid, **pagination_params),
-            class: "result_card__actions" %>
-      </div>
       <% end %>
+    <% end %>
   </section>
-<div class="projects-grid__pagination">
-  <%= decidim_paginate results.where(parent: nil), order_start_time: params[:order_start_time], with_scope: params.dig(:filter,
-  :with_scope), better_view: :grid %>
-</div>
+  <div class="projects-grid__pagination">
+    <%= decidim_paginate results.where(parent: nil), order_start_time: params[:order_start_time], with_scope: params.dig(:filter,
+    :with_scope), better_view: :grid %>
+  </div>
+</section>
