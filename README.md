@@ -25,6 +25,70 @@ Every project can now be localized. They are compatible with [`decidim-geo`](htt
 **Display Acountability's Project by Grid**<br />
 By default, participants will see on the accountability page a grid with all the projects. Participant can switch from grid to previous percentage view with a button.
 
+## Install the module
+Add the `deface` gem to your Gemfile, since the module depends on it. And also the `better accountability` gem.
+```ruby
+gem 'deface', '~> 1.9'
+gem 'decidim-decidim_better_accountability', git: "https://git.octree.ch/decidim/vocacity/decidim-modules/decidim-module-better-accountability.git"
+```
+
+Follow the production setup instructions for [Deface](https://github.com/spree/deface?tab=readme-ov-file#production--precompiling), then run `bundle install`.
+
+```ruby
+bundle config set frozen false # in case of production
+bundle install
+bundle config set frozen true
+```
+
+Next, run the Deface precompile task, and then recompile your assets.
+```ruby
+rails deface:precompile
+rails assets:precompile
+```
+
+# Run locally
+To run this module locally, we use Docker-compose:
+
+```bash
+docker-compose up -d
+```
+This will run a decidim-better-acccountability container, which **sleeps and does nothing**.
+
+After your containers are mounted, you can install the gems: 
+```bash
+  docker-compose exec -it decidim-better-acccountability bundle
+```
+
+Then, you should run the migration on the database: 
+```bash
+  docker-compose exec -it decidim-better-acccountability bin/rails db:migrate
+```
+
+Then, you can seed the database: 
+```bash
+  docker-compose exec -it decidim-better-acccountability bin/rails db:seed
+```
+
+Then, you can start the server
+```bash
+  docker-compose exec -it decidim-better-acccountability bin/rails s -b 0.0.0.0
+```
+
+You can then open a bash session.
+```bash
+  docker-compose exec -it decidim-better-acccountability bash
+```
+
+Once something change, reset your server: 
+```bash
+  docker-compose exec -it decidim-better-acccountability bin/rails restart
+```
+While developing locally, you have two environment variables that can help you:
+
+* `ROOT`: the root of the application using the module
+* `MODULE_ROOT`: the place where your gem code is.
+
+
 ## Contributions
 
 New ideas are welcome on our [feedback page](https://feedback.voca.city/?tags=decidim-better-accountability). We manage there co-financing and release planning.
