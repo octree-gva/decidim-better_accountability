@@ -19,11 +19,9 @@ module Decidim
         @better_view_params ||= better_view_query || "grid"
       end
 
-
       def better_view_query
         @better_view_query ||= params.permit(:better_view)[:better_view]
       end
-
 
       def pagination_params
         params.permit(:per_page, :page)
