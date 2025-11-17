@@ -25,7 +25,5 @@ Gem::Specification.new do |s|
   s.add_dependency "decidim-core", Decidim::BetterAccountability.decidim_version
   s.add_dependency "deface", ">= 1.9.0"
 
-  s.add_development_dependency "decidim-dev", Decidim::BetterAccountability.decidim_version
-  s.add_development_dependency "rubocop-faker"
   s.metadata["rubygems_mfa_required"] = "true"
 end
