@@ -3,7 +3,7 @@
 module Decidim
   module BetterAccountability
     def self.version
-      "0.1.0"
+      "0.1.1" # DO NOT UPDATE MANUALLY
     end
 
     def self.decidim_version
