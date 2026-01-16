@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    decidim-decidim_better_accountability (0.1.0)
+    decidim-decidim_better_accountability (0.1.1)
       decidim-accountability (>= 0.29)
       decidim-admin (>= 0.29)
       decidim-comments (>= 0.29)

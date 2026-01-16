@@ -1,0 +1,11 @@
+
+.projects-list {
+  &__pagination {
+    div > .flex.items-center.gap-1 {
+      display: none;
+    }
+    div > nav {
+      @apply ml-auto;
+    }
+  }
+}

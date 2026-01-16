@@ -5,14 +5,14 @@
 <section class="layout-main__section">
   <section class="projects-grid">
     <% results.where(parent: nil).each do |result| %>
-      <%= link_to result_path(result, **pagination_params, better_view: :grid ), class: "result_card" do %>
+      <%= link_to result_path(result, better_view: :grid ), class: "result_card" do %>
         <div class ="result_card__header">
           <h4 class="result_card__headertext">
             <%= translated_attribute(result.title) %>
           </h4>
         </div>
         <div class="result_card__description">
-          <%= html_truncate(decidim_sanitize_admin(translated_attribute(result.description)), length: 150).html_safe %>
+          <%= html_truncate(decidim_sanitize_admin((translated_attribute(result.description)), { strip_tags: true }), length: 150).html_safe %>
         </div>
         <div class="result_card__metas">
           <% if result.status %>
