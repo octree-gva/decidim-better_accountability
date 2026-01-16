@@ -42,16 +42,6 @@ ruby::rubocop:
     - bundle
     - bundle exec rubocop .
 ##
-# Lint crowdin.yml configuration file
-crowdin::lint:  
-  extends: .development_rules
-  image: node:18.20
-  stage: lint
-  script:
-    - npm install -g @crowdin/cli
-    - crowdin config lint --no-progress || exit 1
-    - crowdin status -T $CROWDIN_PERSONAL_TOKEN -i $CROWDIN_PROJECT_ID --no-progress || exit 1
-##
 # Publish the gem un ruby gem.
 ruby::rubygem:
   image: ruby
@@ -65,36 +55,34 @@ ruby::rubygem:
     - gem push decidim-decidim_better_accountability-*.gem -k ci_rubygems_api_key --config-file .credentials
   only:
     - tags
-##
-# Upload new translation keys to crowdin
+
 crowdin::upload:
-  stage: translate
-  image: node:18.20
+  stage: translations
+  image: node:20
+  when: manual
   script:
     - npm install -g @crowdin/cli
-    - crowdin upload -T $CROWDIN_PERSONAL_TOKEN -i $CROWDIN_PROJECT_ID --no-progress
-    - crowdin status -T $CROWDIN_PERSONAL_TOKEN -i $CROWDIN_PROJECT_ID --no-progress
-  when: manual
-##
-# Create a Merge request in the project with updated 
-# crowndin translations.
+    - crowdin upload -T $CROWDIN_PERSONAL_TOKEN -i $CROWDIN_PROJECT_ID --no-progress || exit 1
+    - crowdin status -T $CROWDIN_PERSONAL_TOKEN -i $CROWDIN_PROJECT_ID --no-progress || exit 1
+
+# Create a MR with the new translation
 crowdin::merge_request:
-  stage: translate
-  image: node:18.20
-  extends: .publication_rules
+  stage: translations
+  image: node:20
+  when: manual
   before_script:
     - apt-get update && apt-get install -y git
   script:
     - git config --global user.email "mr-translations"
-    - git config --global user.name "$TRANSLATIONBOT_ID"
+    - git config --global user.name "$GIT_USERNAME"
     - npm install -g @crowdin/cli
-    - crowdin download -T $CROWDIN_PERSONAL_TOKEN -i $CROWDIN_PROJECT_ID --no-progress
-    - crowdin status -T $CROWDIN_PERSONAL_TOKEN -i $CROWDIN_PROJECT_ID --no-progress
+    - crowdin download  -T $CROWDIN_PERSONAL_TOKEN -i $CROWDIN_PROJECT_ID --no-progress
+    - crowdin status -T $CROWDIN_PERSONAL_TOKEN -i $CROWDIN_PROJECT_ID --no-progress || exit 1
     - export BRANCH_NAME="i18n/$(date +%Y%m%d%H%M%S)"
     - export ORIGIN="crowndin_$(date +%Y%m%d%H%M%S)"
-    - echo "add $ORIGIN=https://$TRANSLATIONBOT_ID:$TRANSLATIONBOT_ACCESS_TOKEN@git.octree.ch/$CI_PROJECT_PATH.git"
-    - git remote add $ORIGIN https://$TRANSLATIONBOT_ID:$TRANSLATIONBOT_ACCESS_TOKEN@git.octree.ch/$CI_PROJECT_PATH.git
+    - echo "add $ORIGIN=https://$GIT_USERNAME:$ACCESS_TOKEN@git.octree.ch/$CI_PROJECT_PATH.git"
+    - git remote add $ORIGIN https://$GIT_USERNAME:$ACCESS_TOKEN@git.octree.ch/$CI_PROJECT_PATH.git
     - git checkout -b $BRANCH_NAME
     - git add config/locales
-    - git commit -m "Crowdin Updates"
+    - git commit -m "Update translations"
     - git push $ORIGIN HEAD:$BRANCH_NAME -o merge_request.create -o merge_request.target=main
