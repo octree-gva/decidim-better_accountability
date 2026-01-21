@@ -12,7 +12,7 @@
           </h4>
         </div>
         <div class="result_card__description">
-          <%= html_truncate(decidim_sanitize_admin((translated_attribute(result.description)), { strip_tags: true }), length: 150).html_safe %>
+          <%= html_truncate(sanitize(translated_attribute(result.description), tags: %w[p br strong em ul ol li img]), length: 150).html_safe %>
         </div>
         <div class="result_card__metas">
           <% if result.status %>
