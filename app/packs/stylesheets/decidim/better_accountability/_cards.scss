@@ -20,6 +20,11 @@
   }
   &__description {
     padding: 0 1.5rem 1rem 1.5rem;
+    line-height: 1.5;
+    display: grid;
+    grid-auto-flow: row;
+    grid-auto-rows: max-content;
+    gap: 1em;
   }
   &__metas {
     flex: 0;
