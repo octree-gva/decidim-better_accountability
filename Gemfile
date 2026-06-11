@@ -11,12 +11,12 @@ ruby RUBY_VERSION
 
 DECIDIM_VERSION = ENV.fetch("DECIDIM_VERSION", ">= 0.29.5")
 
+gem "bootsnap", "~> 1.18"
 gem "decidim", DECIDIM_VERSION
 gem "decidim-decidim_better_accountability", path: base_path
-
-gem "bootsnap", "~> 1.18"
 gem "puma", ">= 6.6"
 gem "uglifier", "~> 4.2"
+gem "uri", "1.1.1"
 
 gem "deface", ">= 1.9"
 gem "rubocop-faker"
