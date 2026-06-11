@@ -15,7 +15,7 @@
   },
   "author": "Hadrien Froger",
   "license": "AGPL-3.0",
-  "dependencies": {
+  "devDependencies": {
     "prettier": "^3.3.3"
   }
 }

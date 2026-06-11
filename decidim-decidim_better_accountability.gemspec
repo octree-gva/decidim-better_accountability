@@ -10,7 +10,7 @@ Gem::Specification.new do |s|
   s.email = ["hadrien@octree.ch", "renato@octree.ch"]
   s.license = "AGPL-3.0"
   s.homepage = "https://git.octree.ch/decidim/vocacity/decidim-modules/decidim-module-better-accountability"
-  s.required_ruby_version = ">= 3.0"
+  s.required_ruby_version = ">= 3.2"
 
   s.name = "decidim-decidim_better_accountability"
   s.summary = "Display accountabilities in grid & add location to projects."
