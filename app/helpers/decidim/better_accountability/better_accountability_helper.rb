@@ -26,6 +26,22 @@ module Decidim
       def pagination_params
         params.permit(:per_page, :page)
       end
+
+      def better_accountability_home_layout
+        if Decidim::BetterAccountability.enabled?(current_organization)
+          "layouts/decidim/better_accountability/around_home"
+        else
+          "layouts/decidim/shared/layout_two_col"
+        end
+      end
+
+      def better_accountability_item_layout
+        if Decidim::BetterAccountability.enabled?(current_organization)
+          "layouts/decidim/better_accountability/layout_item"
+        else
+          "layouts/decidim/shared/layout_item"
+        end
+      end
     end
   end
 end

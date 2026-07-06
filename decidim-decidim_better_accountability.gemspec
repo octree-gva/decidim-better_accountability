@@ -23,6 +23,7 @@ Gem::Specification.new do |s|
   s.add_dependency "decidim-admin", Decidim::BetterAccountability.decidim_version
   s.add_dependency "decidim-comments", Decidim::BetterAccountability.decidim_version
   s.add_dependency "decidim-core", Decidim::BetterAccountability.decidim_version
+  s.add_dependency "decidim-toggle", "~> 0.1.3"
   s.add_dependency "deface", ">= 1.9.0"
 
   s.metadata["rubygems_mfa_required"] = "true"

@@ -1,4 +1,9 @@
 pt:
+  decidim_toggle:
+    system:
+      decidim_better_accountability:
+        tab: Better accountability
+        enabled: Ativar better accountability
   decidim:
     better_accountability:
       navigation:

@@ -20,6 +20,9 @@ gem "uglifier", "~> 4.2"
 gem "uri", "1.1.1"
 
 gem "deface", ">= 1.9"
+gem "decidim-toggle",
+    git: "https://git.octree.ch/decidim/vocacity/decidim-modules/decidim-toggle",
+    tag: "v0.1.3"
 gem "rubocop-faker"
 
 group :development, :test do

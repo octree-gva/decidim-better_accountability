@@ -88,6 +88,12 @@ While developing locally, you have two environment variables that can help you:
 * `ROOT`: the root of the application using the module
 * `MODULE_ROOT`: the place where your gem code is.
 
+# Run CI locally
+GitLab `ruby::rspec` locally (ruby 3.4.7, Postgres 17, Redis, Node 22, libvips42, `rake test_app`, then `rspec spec`). Not for interactive development.
+
+```bash
+docker compose -f docker-compose.ci.yml run --rm rspec
+```
 
 ## Contributions
 

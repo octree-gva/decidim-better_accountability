@@ -1,4 +1,6 @@
-@import "stylesheets/decidim/better_accountability/navigation";
-@import "stylesheets/decidim/better_accountability/grid";
-@import "stylesheets/decidim/better_accountability/cards";
-@import "stylesheets/decidim/better_accountability/list";
+body[data-better-accountability-enabled="true"] {
+  @import "stylesheets/decidim/better_accountability/navigation";
+  @import "stylesheets/decidim/better_accountability/grid";
+  @import "stylesheets/decidim/better_accountability/cards";
+  @import "stylesheets/decidim/better_accountability/list";
+}

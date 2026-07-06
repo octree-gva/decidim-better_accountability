@@ -1,5 +1,8 @@
 # frozen_string_literal: true
 
+require "deface"
+require "decidim/toggle"
+
 module Decidim
   module BetterAccountability
     ##
@@ -8,7 +11,14 @@ module Decidim
     class Engine < ::Rails::Engine
       isolate_namespace Decidim::BetterAccountability
 
+      initializer "decidim_better_accountability.ignore_deface_overrides_in_zeitwerk" do
+        overrides_path = root.join("app/overrides").to_s
+        Rails.autoloaders.main.ignore(overrides_path) if Dir.exist?(overrides_path)
+      end
+
       config.to_prepare do
+        Decidim::Organization.include(Decidim::BetterAccountability::OrganizationExtensions)
+
         # Decorators&Overrides injections
         ::Decidim::Accountability::ResultsController.helper(::Decidim::BetterAccountability::BetterAccountabilityHelper)
       end
@@ -22,6 +32,11 @@ module Decidim
       end
       initializer "decidim_better_accountability.webpacker.assets_path" do
         Decidim.register_assets_path File.expand_path("#{Decidim::BetterAccountability::Engine.root}/app/packs")
+      end
+
+      initializer "decidim_better_accountability.organization_settings_tab",
+                  after: "decidim_toggle.organization_settings_tabs" do
+        Decidim::BetterAccountability::SettingsTab.register!
       end
     end
   end

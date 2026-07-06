@@ -1,43 +1,69 @@
 # frozen_string_literal: true
 
 require "decidim/dev/common_rake"
+require "rake/file_utils"
+require "yaml"
 
-def seed_db(path)
+DEFAULT_DATABASE_HOST = "better-accountability-pg"
+
+def database_host
+  host = ENV.fetch("DATABASE_HOST", DEFAULT_DATABASE_HOST)
+  return DEFAULT_DATABASE_HOST if host == "pg"
+
+  host
+end
+
+def install_module(path)
   Dir.chdir(path) do
-    system("bundle exec rails db:seed")
+    sh "bundle exec rails decidim_toggle:install:migrations"
+    sh "bundle exec rails decidim:update"
   end
 end
 
-desc "Prepare for testing"
-task :prepare_tests do
-  # Remove previous existing db, and recreate one.
-  disable_docker_compose = ENV.fetch("DISABLED_DOCKER_COMPOSE", "false") == "true"
-  unless disable_docker_compose
-    system("docker-compose -f docker-compose.yml down -v --remove-orphans")
-    system("docker-compose -f docker-compose.yml up -d ")
-  end
+def with_test_database_env
+  ENV.delete("DATABASE_URL")
+  ENV["DATABASE_HOST"] = database_host
+  ENV["DISABLE_SPRING"] = "1"
   ENV["RAILS_ENV"] = "development"
-  common_db_config = {
+  yield
+end
+
+def common_db_config
+  {
     "adapter" => "postgresql",
     "encoding" => "unicode",
-    "host" => ENV.fetch("DATABASE_HOST", "better-accountability-pg"),
+    "host" => database_host,
     "port" => ENV.fetch("DATABASE_PORT", "5432").to_i,
     "username" => ENV.fetch("DATABASE_USERNAME", "decidim"),
     "password" => ENV.fetch("DATABASE_PASSWORD", "pleaseChangeMe"),
     "database" => "#{base_app_name}_test_app"
   }
+end
 
-  database_yml = {
-    "test" => common_db_config,
-    "development" => common_db_config
-  }
-
+def write_test_database_yml
   config_file = File.expand_path("spec/decidim_dummy_app/config/database.yml", __dir__)
-  File.open(config_file, "w") { |f| YAML.dump(database_yml, f) }
+  File.open(config_file, "w") { |f| YAML.dump({ "test" => common_db_config, "development" => common_db_config }, f) }
+end
+
+def reset_test_database
   Dir.chdir("spec/decidim_dummy_app") do
-    system("bundle exec rails db:drop")
-    system("bundle exec rails db:create")
-    system("bundle exec rails db:migrate")
+    sh "bundle exec rails db:drop DISABLE_DATABASE_ENVIRONMENT_CHECK=1"
+    sh "bundle exec rails db:create"
+    sh "bundle exec rails db:migrate"
+  end
+end
+
+desc "Prepare for testing"
+task :prepare_tests do
+  disable_docker_compose = ENV.fetch("DISABLED_DOCKER_COMPOSE", "false") == "true"
+  unless disable_docker_compose
+    sh "docker compose -f docker-compose.yml down -v --remove-orphans"
+    sh "docker compose -f docker-compose.yml up -d"
+  end
+
+  with_test_database_env do
+    write_test_database_yml
+    reset_test_database
   end
 end
 
@@ -51,13 +77,13 @@ task :test_app do
       "--path",
       "../..",
       "--skip_spring",
-      "--demo",
       "--force_ssl",
       "false",
       "--locales",
       "en,fr,es"
     )
   end
+  install_module("spec/decidim_dummy_app")
   Rake::Task["prepare_tests"].invoke
 end
 
@@ -74,4 +100,5 @@ task :development_app do
       "--demo"
     )
   end
+  install_module("development_app")
 end
