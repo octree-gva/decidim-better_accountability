@@ -3,7 +3,7 @@ en:
     system:
       decidim_better_accountability:
         tab: Better accountability
-        enabled: Activate better accountability
+        enabled: Better Accountability Enabled
   decidim:
     better_accountability:
       navigation:

@@ -15,7 +15,7 @@
           <%= html_truncate(
                 sanitize(translated_attribute(result.description), tags: %w(p br strong em ul ol li img)),
                 length: 150
-              ) %>
+              ).html_safe %>
         </div>
         <div class="result_card__metas">
           <% if result.status %>
