@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+# RuboCop + RSpec (matches CI ruby::rubocop, ruby::rspec).
+# Run from gem root inside the destack service, or:
+#   docker compose exec decidim-better-acccountability ./bin/check
+# Does not run erblint, Prettier, or Crowdin.
+set -euo pipefail
+cd "$(dirname "$0")/.."
+unset DATABASE_URL
+export RAILS_ENV=test
+export DISABLE_SPRING=1
+bundle exec rubocop .
+bundle exec rspec spec "$@"

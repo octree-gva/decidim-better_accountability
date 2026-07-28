@@ -5,47 +5,54 @@
 <section class="layout-main__section">
   <section class="projects-grid">
     <% results.where(parent: nil).each do |result| %>
-      <%= link_to result_path(result, better_view: :grid ), class: "result_card" do %>
-        <div class ="result_card__header">
+      <%= link_to result_path(result, better_view: :grid), class: "result_card" do %>
+        <div class="result_card__header">
           <h4 class="result_card__headertext">
             <%= translated_attribute(result.title) %>
           </h4>
         </div>
         <div class="result_card__description">
-          <%= html_truncate(sanitize(translated_attribute(result.description), tags: %w[p br strong em ul ol li img]), length: 150).html_safe %>
+          <%= html_truncate(
+                sanitize(translated_attribute(result.description), tags: %w(p br strong em ul ol li img)),
+                length: 150
+              ) %>
         </div>
         <div class="result_card__metas">
           <% if result.status %>
             <div class="result_card__status">
               <div class="result_card__statustitle">
-                <span title="<%= t("models.result.fields.status", scope: "decidim.accountability" ) %>" aria-label="<%= t("models.result.fields.status", scope: "decidim.accountability" ) %>">
+                <span title="<%= t("models.result.fields.status", scope: "decidim.accountability") %>" aria-label="<%= t("models.result.fields.status", scope: "decidim.accountability") %>">
                   <%= translated_attribute(result.status.name) %>
                 </span>
               </div>
               <% if translated_attribute(result.status.description).present? %>
                 <div class="result_card__status_description">
-                    <%= html_truncate(translated_attribute(result.status.description), length: 150) %>
+                  <%= html_truncate(translated_attribute(result.status.description), length: 150) %>
                 </div>
-                <% end %>
+              <% end %>
             </div>
-            <% end %>
+          <% end %>
 
-            <% if component_settings.display_progress_enabled? && result.progress.present? %>
-              <div class="result_card__progress">
-                <span class="result_card__progressnumber">
-                  <%= display_percentage result.progress %>
-                </span>
-                <div class="result_card__progressbar progress">
-                  <div class="progress-meter" style="width:<%= result.progress %>%"></div>
-                </div>
+          <% if component_settings.display_progress_enabled? && result.progress.present? %>
+            <div class="result_card__progress">
+              <span class="result_card__progressnumber">
+                <%= display_percentage result.progress %>
+              </span>
+              <div class="result_card__progressbar">
+                <div class="result_card__progressbar-meter" style="width:<%= result.progress %>%"></div>
               </div>
-            <% end %>
-          </div>
+            </div>
+          <% end %>
+        </div>
       <% end %>
     <% end %>
   </section>
   <div class="projects-grid__pagination">
-    <%= decidim_paginate results.where(parent: nil), order_start_time: params[:order_start_time], with_scope: params.dig(:filter,
-    :with_scope), better_view: :grid %>
+    <%= decidim_paginate(
+          results.where(parent: nil),
+          order_start_time: params[:order_start_time],
+          with_scope: params.dig(:filter, :with_scope),
+          better_view: :grid
+        ) %>
   </div>
 </section>

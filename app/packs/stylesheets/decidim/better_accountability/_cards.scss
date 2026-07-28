@@ -1,15 +1,13 @@
-
 .better-accountability .result_card {
   @apply card__grid;
 
-
   &__headertext {
-    overflow: hidden; 
+    overflow: hidden;
     margin-bottom: 0;
-    white-space: nowrap; 
-    text-overflow: ellipsis; 
-    display: inline-block; 
-    max-width: 100%; 
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    display: inline-block;
+    max-width: 100%;
     @apply h4 text-secondary;
   }
   &__description {
@@ -48,19 +46,18 @@
     flex: 1;
     margin-bottom: 0;
     background-color: rgb(40 167 69 / var(--tw-bg-opacity, 0.15));
-    
+
     &,
-    .progress-meter {
+    &-meter {
       height: 8px;
       min-height: 8px;
       border: 0px solid transparent;
       border-radius: 8px;
     }
 
-    .progress-meter {
+    &-meter {
       background-color: rgb(40 167 69 / var(--tw-bg-opacity, 1));
     }
-
   }
 
   &__progressnumber {

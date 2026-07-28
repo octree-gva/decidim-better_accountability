@@ -47,46 +47,44 @@ rails assets:precompile
 ```
 
 # Run locally
-To run this module locally, we use Docker-compose:
+To run this module locally, we use Docker Compose (`octree/decidim-dev:0.32`):
 
 ```bash
-docker-compose up -d
+docker compose up -d
 ```
 This will run a decidim-better-acccountability container, which **sleeps and does nothing**.
 
 After your containers are mounted, you can install the gems: 
 ```bash
-  docker-compose exec -it decidim-better-acccountability bundle
+  docker compose exec -it decidim-better-acccountability bundle
 ```
 
 Then, you should run the migration on the database: 
 ```bash
-  docker-compose exec -it decidim-better-acccountability bin/rails db:migrate
+  docker compose exec -it decidim-better-acccountability bin/rails db:migrate
 ```
 
 Then, you can seed the database: 
 ```bash
-  docker-compose exec -it decidim-better-acccountability bin/rails db:seed
+  docker compose exec -it decidim-better-acccountability bin/rails db:seed
 ```
 
 Then, you can start the server
 ```bash
-  docker-compose exec -it decidim-better-acccountability bin/rails s -b 0.0.0.0
+  docker compose exec -it decidim-better-acccountability bin/rails s -b 0.0.0.0
 ```
 
 You can then open a bash session.
 ```bash
-  docker-compose exec -it decidim-better-acccountability bash
+  docker compose exec -it decidim-better-acccountability bash
 ```
 
 Once something change, reset your server: 
 ```bash
-  docker-compose exec -it decidim-better-acccountability bin/rails restart
+  docker compose exec -it decidim-better-acccountability bin/rails restart
 ```
-While developing locally, you have two environment variables that can help you:
 
-* `ROOT`: the root of the application using the module
-* `MODULE_ROOT`: the place where your gem code is.
+The destack app is `/home/decidim` (image `ROOT=/home/decidim`). This gem is mounted at `/home/module`. Compose sets `DEV_MODULE=decidim-decidim_better_accountability`, `DISABLED_DOCKER_COMPOSE=true`, and `DATABASE_HOST=better-accountability-pg`.
 
 # Run CI locally
 GitLab `ruby::rspec` locally (ruby 3.4.7, Postgres 17, Redis, Node 22, libvips42, `rake test_app`, then `rspec spec`). Not for interactive development.

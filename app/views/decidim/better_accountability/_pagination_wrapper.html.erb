@@ -1,0 +1,5 @@
+<% if Decidim::BetterAccountability.enabled?(current_organization) %>
+  <div class="projects-list__pagination"><%= yield %></div>
+<% else %>
+  <%= yield %>
+<% end %>
