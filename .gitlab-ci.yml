@@ -59,10 +59,9 @@ ruby::rspec:
   stage: test
   extends: .development_rules
   artifacts:
-    reports:
-      coverage_report:
-        coverage_format: cobertura
-        path: coverage/coverage.xml
+    when: always
+    paths:
+      - coverage/
   variables:
     DATABASE_HOST: "postgres"
     DATABASE_PASSWORD: "TEST-insecure_password"

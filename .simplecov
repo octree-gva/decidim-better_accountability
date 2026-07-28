@@ -18,9 +18,4 @@ SimpleCov.start "rails" do
   enable_coverage :branch
 
   minimum_coverage line: 85
-
-  if ENV["CI"]
-    require "simplecov-cobertura"
-    SimpleCov.formatter = SimpleCov::Formatter::CoberturaFormatter
-  end
 end
