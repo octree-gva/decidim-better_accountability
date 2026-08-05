@@ -2,6 +2,12 @@
 
 module Decidim
   module BetterAccountability
-    include ActiveSupport::Configurable
+    class << self
+      def config = self
+
+      def configure
+        yield self
+      end
+    end
   end
 end

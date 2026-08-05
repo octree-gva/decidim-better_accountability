@@ -2,7 +2,7 @@ services:
   decidim-better-acccountability:
     container_name: decidim-better-acccountability
     command: bash -c "sleep infinity"
-    image: octree/decidim-dev:0.29
+    image: octree/decidim-dev:0.32
     entrypoint: ""
     volumes:
       - .:/home/module
@@ -25,7 +25,7 @@ services:
 
   better-accountability-pg:
     container_name: better-accountability-pg
-    image: postgres:16
+    image: postgres:17
     volumes:
       - better-acccountability-pg-data:/var/lib/postgresql/data
     environment:
