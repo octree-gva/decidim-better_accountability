@@ -1,9 +1,10 @@
 # frozen_string_literal: true
 
 source "https://rubygems.org"
-"./"
-"../../" if File.basename(__dir__) == "decidim_dummy_app"
-"../" if File.basename(__dir__) == "development_app"
+
+base_path = "./"
+base_path = "../../" if File.basename(__dir__) == "decidim_dummy_app"
+base_path = "../" if File.basename(__dir__) == "development_app"
 
 RUBY_VERSION = ">= 3.4.7"
 
