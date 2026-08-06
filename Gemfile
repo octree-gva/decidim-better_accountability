@@ -13,7 +13,7 @@ DECIDIM_VERSION = ENV.fetch("DECIDIM_VERSION", ">= 0.32")
 
 gem "bootsnap", "~> 1.18"
 gem "decidim", DECIDIM_VERSION
-# gem "decidim-decidim_better_accountability", path: base_path
+gem "decidim-decidim_better_accountability", path: base_path
 gem "puma", ">= 6.6"
 gem "uglifier", "~> 4.2"
 gem "uri", "1.1.1"
