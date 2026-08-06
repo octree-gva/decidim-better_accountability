@@ -16,12 +16,13 @@ services:
       - DATABASE_URL=postgresql://decidim:pleaseChangeMe@better-accountability-pg:5432/decidim
       - DEV_MODULE=decidim-decidim_better_accountability
       - RAILS_ENV=development
+      - DECIDIM_FORCE_SSL=false
+      - DISABLE_SPRING=1
     ports:
       - 3000:3000
-    links:
-      - better-accountability-pg
     depends_on:
-      - better-accountability-pg
+      better-accountability-pg:
+        condition: service_healthy
 
   better-accountability-pg:
     container_name: better-accountability-pg
@@ -32,6 +33,11 @@ services:
       - POSTGRES_DATABASE=decidim
       - POSTGRES_USER=decidim
       - POSTGRES_PASSWORD=pleaseChangeMe
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U decidim"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
 volumes:
   node_modules: {}
