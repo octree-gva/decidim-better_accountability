@@ -18,10 +18,9 @@ services:
       - RAILS_ENV=development
     ports:
       - 3000:3000
-    links:
-      - better-accountability-pg
     depends_on:
-      - better-accountability-pg
+      better-accountability-pg:
+        condition: service_healthy
 
   better-accountability-pg:
     container_name: better-accountability-pg
@@ -32,6 +31,11 @@ services:
       - POSTGRES_DATABASE=decidim
       - POSTGRES_USER=decidim
       - POSTGRES_PASSWORD=pleaseChangeMe
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U decidim"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
 volumes:
   node_modules: {}
