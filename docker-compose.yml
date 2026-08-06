@@ -16,6 +16,8 @@ services:
       - DATABASE_URL=postgresql://decidim:pleaseChangeMe@better-accountability-pg:5432/decidim
       - DEV_MODULE=decidim-decidim_better_accountability
       - RAILS_ENV=development
+      - DECIDIM_FORCE_SSL=false
+      - DISABLE_SPRING=1
     ports:
       - 3000:3000
     depends_on:
