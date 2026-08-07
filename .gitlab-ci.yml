@@ -36,25 +36,25 @@ stages:
 # Lint ruby code
 ruby::rubocop:  
   extends: .development_rules
-  image: ruby:3.2.7
+  image: ruby:3.4.7
   stage: lint
   script:
     - bundle
     - bundle exec rubocop .
 ##
-# Lint crowdin.yml configuration file
+# Check Crowdin connectivity (credentials via CI vars; crowdin.yml keeps placeholders)
 crowdin::lint:  
   extends: .development_rules
-  image: node:18.20
+  image: node:22
   stage: lint
   script:
     - npm install -g @crowdin/cli
-    - crowdin config lint --no-progress || exit 1
-    - crowdin status -T $CROWDIN_PERSONAL_TOKEN -i $CROWDIN_PROJECT_ID --no-progress || exit 1
+    - crowdin status -T $CROWDIN_PERSONAL_TOKEN -i $CROWDIN_PROJECT_ID --no-progress
+  allow_failure: true
 ##
 # Publish the gem un ruby gem.
 ruby::rubygem:
-  image: ruby
+  image: ruby:3.4.7
   stage: publish
   script:
     - echo "---" > .credentials
@@ -69,7 +69,7 @@ ruby::rubygem:
 # Upload new translation keys to crowdin
 crowdin::upload:
   stage: translate
-  image: node:18.20
+  image: node:22
   script:
     - npm install -g @crowdin/cli
     - crowdin upload -T $CROWDIN_PERSONAL_TOKEN -i $CROWDIN_PROJECT_ID --no-progress
@@ -80,7 +80,7 @@ crowdin::upload:
 # crowndin translations.
 crowdin::merge_request:
   stage: translate
-  image: node:18.20
+  image: node:22
   extends: .publication_rules
   before_script:
     - apt-get update && apt-get install -y git

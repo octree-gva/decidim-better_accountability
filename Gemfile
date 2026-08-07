@@ -1,15 +1,16 @@
 # frozen_string_literal: true
 
 source "https://rubygems.org"
+
 base_path = "./"
 base_path = "../../" if File.basename(__dir__) == "decidim_dummy_app"
 base_path = "../" if File.basename(__dir__) == "development_app"
 
-RUBY_VERSION = ">= 3.2.2"
+RUBY_VERSION = ">= 3.4.7"
 
 ruby RUBY_VERSION
 
-DECIDIM_VERSION = ENV.fetch("DECIDIM_VERSION", ">= 0.29.5")
+DECIDIM_VERSION = ENV.fetch("DECIDIM_VERSION", ">= 0.32")
 
 gem "bootsnap", "~> 1.18"
 gem "decidim", DECIDIM_VERSION
