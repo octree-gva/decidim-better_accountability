@@ -3,6 +3,9 @@ fr:
     better_accountability:
       navigation:
         view:
-          grid: Grille
-          percentage: Catégories
+          grid: Passer en mode grille
+          percentage: Passer en mode pourcentage
         go_back: Retour aux projets
+      grid:
+        title: Tous les projets
+        view_btn: "Voir le projet"
