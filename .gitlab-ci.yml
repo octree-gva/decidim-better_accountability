@@ -1,12 +1,14 @@
 ##
-# Set of re-usable rules for decidim module development. 
-# You are required to set the following CI/CD variables: 
-# 
-# - CROWDIN_PERSONAL_TOKEN: protected & masked. // API Token from crowdin
-# - CROWDIN_PROJECT_ID: masked. // Project ID from crowdin
-# - TRANSLATIONBOT_ID: masked. // Project Bot `mr-translation` user id (see in repo>members tab)
-# - TRANSLATIONBOT_ACCESS_TOKEN: masked. // Project Token with name `mr-translations`
-# - GEM_HOST_API_KEY: protected & masked. // 
+# Set of re-usable rules for decidim module development.
+# You are required to set the following CI/CD variables:
+#
+# - CROWDIN_PERSONAL_TOKEN: protected & masked. // Crowdin API token (group-level OK)
+# - CROWDIN_PROJECT_ID: masked. // Crowdin project id
+# - GEM_HOST_API_KEY: protected & masked. //
+#
+# GitLab UI (once per project): Settings → CI/CD → Job token permissions →
+# enable "Allow Git push requests to the repository" (off by default).
+# crowdin::merge_request pushes with CI_JOB_TOKEN (no TRANSLATIONBOT_* vars).
 stages:
   - lint
   - translate
@@ -76,8 +78,8 @@ crowdin::upload:
     - crowdin status -T $CROWDIN_PERSONAL_TOKEN -i $CROWDIN_PROJECT_ID --no-progress
   when: manual
 ##
-# Create a Merge request in the project with updated 
-# crowndin translations.
+# Create a Merge request in the project with updated
+# crowdin translations (push via CI_JOB_TOKEN + push options).
 crowdin::merge_request:
   stage: translate
   image: node:22
@@ -85,16 +87,21 @@ crowdin::merge_request:
   before_script:
     - apt-get update && apt-get install -y git
   script:
-    - git config --global user.email "mr-translations"
-    - git config --global user.name "$TRANSLATIONBOT_ID"
+    - git config --global user.email "translations@noreply"
+    - git config --global user.name "crowdin-ci"
     - npm install -g @crowdin/cli
     - crowdin download -T $CROWDIN_PERSONAL_TOKEN -i $CROWDIN_PROJECT_ID --no-progress
     - crowdin status -T $CROWDIN_PERSONAL_TOKEN -i $CROWDIN_PROJECT_ID --no-progress
     - export BRANCH_NAME="i18n/$(date +%Y%m%d%H%M%S)"
-    - export ORIGIN="crowndin_$(date +%Y%m%d%H%M%S)"
-    - echo "add $ORIGIN=https://$TRANSLATIONBOT_ID:$TRANSLATIONBOT_ACCESS_TOKEN@git.octree.ch/$CI_PROJECT_PATH.git"
-    - git remote add $ORIGIN https://$TRANSLATIONBOT_ID:$TRANSLATIONBOT_ACCESS_TOKEN@git.octree.ch/$CI_PROJECT_PATH.git
+    - export ORIGIN="crowdin_$(date +%Y%m%d%H%M%S)"
+    - echo "add remote $ORIGIN user=gitlab-ci-token path=$CI_PROJECT_PATH host=$CI_SERVER_HOST"
+    - git remote add $ORIGIN "https://gitlab-ci-token:${CI_JOB_TOKEN}@${CI_SERVER_HOST}/${CI_PROJECT_PATH}.git"
     - git checkout -b $BRANCH_NAME
     - git add config/locales
+    - |
+      if git diff --cached --quiet; then
+        echo "No locale changes; skipping commit/push."
+        exit 0
+      fi
     - git commit -m "Crowdin Updates"
     - git push $ORIGIN HEAD:$BRANCH_NAME -o merge_request.create -o merge_request.target=main
