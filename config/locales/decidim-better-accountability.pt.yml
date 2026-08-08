@@ -1,8 +1,11 @@
-fr:
+pt:
   decidim:
     better_accountability:
       navigation:
         view:
-          grid: Grade
-          percentage: Categorias
+          grid: Exibir na grade
+          percentage: Exibir em porcentagem
         go_back: Voltar aos projetos
+      grid:
+        title: Todos os projetos
+        view_btn: "Ver o projeto"
