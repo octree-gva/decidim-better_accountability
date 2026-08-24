@@ -30,7 +30,7 @@
   }
   &__pagination {
     text-align: center;
-    div > .flex.items-center.gap-1 {
+    [data-pagination] > div {
       display: none;
     }
     div > nav {

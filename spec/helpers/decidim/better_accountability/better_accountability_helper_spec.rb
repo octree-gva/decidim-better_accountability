@@ -74,11 +74,11 @@ describe Decidim::BetterAccountability::BetterAccountabilityHelper do
     end
   end
 
-  describe "#pagination_params" do
+  describe "#better_pagination_params" do
     let(:params) { ActionController::Parameters.new(page: "2", per_page: "10", other: "x") }
 
     it "permits pagination keys" do
-      expect(helper.pagination_params.to_h).to eq("page" => "2", "per_page" => "10")
+      expect(helper.better_pagination_params.to_h).to eq("page" => "2", "per_page" => "10")
     end
   end
 end

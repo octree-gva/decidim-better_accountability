@@ -3,7 +3,7 @@
 </div>
 <div class="layout-item layout-item--better-accountability">
   <% if better_view_query == "grid" %>
-    <%= link_to root_path(better_view: better_view_params, **pagination_params), class: "better_accountability__goback" do %>
+    <%= link_to root_path(better_view: better_view_params, **better_pagination_params), class: "better_accountability__goback" do %>
       <%= icon("arrow-left-s-line") %>
       <span><%= t("navigation.go_back", scope: "decidim.better_accountability") %></span>
     <% end %>

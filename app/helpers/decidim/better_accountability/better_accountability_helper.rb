@@ -23,7 +23,7 @@ module Decidim
         @better_view_query ||= params.permit(:better_view)[:better_view]
       end
 
-      def pagination_params
+      def better_pagination_params
         params.permit(:per_page, :page)
       end
 
