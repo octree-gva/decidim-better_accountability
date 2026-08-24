@@ -53,7 +53,7 @@ ruby::rubocop:
     - bundle
     - bundle exec rubocop .
 ##
-# Execute rspec (parity with docker-compose.ci.yml). No extra linters/Chrome.
+# Execute rspec (parity with docker-compose.ci.yml). Chrome is required for system specs.
 ruby::rspec:
   image: ruby:3.4.7
   stage: test
@@ -72,9 +72,14 @@ ruby::rspec:
     SIMPLECOV: 1
     CI: 1
   before_script:
+    # System specs need Chromium/Chrome + matching chromedriver; plain ruby:* images omit the browser,
+    # so chromedriver can exit before binding and Selenium retries until ECONNREFUSED.
     # ruby-vips (Active Storage / Decidim) needs libvips; Debian nodejs is Node 20 and
     # breaks shakapacker file:packages/*. Use NodeSource 22 + libvips42 before rake test_app.
-    - apt-get update -qq && apt-get install -y -qq ca-certificates curl gnupg libvips42
+    - apt-get update -qq && apt-get install -y -qq ca-certificates curl gnupg wget libvips42
+    - wget -q -O /tmp/google-chrome.deb https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+    - apt-get install -y /tmp/google-chrome.deb || (apt-get -f install -y && apt-get install -y /tmp/google-chrome.deb)
+    - rm -f /tmp/google-chrome.deb
     - curl -fsSL https://deb.nodesource.com/setup_22.x | bash -
     - apt-get install -y -qq nodejs
     - corepack enable

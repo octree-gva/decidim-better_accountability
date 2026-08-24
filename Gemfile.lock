@@ -947,9 +947,9 @@ DEPENDENCIES
   bootsnap (~> 1.18)
   byebug (~> 11.1)
   capybara (~> 3.40)
-  decidim (= 0.32.1)
+  decidim (>= 0.32)
   decidim-decidim_better_accountability!
-  decidim-dev (= 0.32.1)
+  decidim-dev (>= 0.32)
   decidim-toggle!
   deface (>= 1.9)
   faker (~> 3.5)

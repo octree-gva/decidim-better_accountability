@@ -1,4 +1,5 @@
-# Local GitLab CI parity (rspec). Not for interactive development — use docker-compose.yml.
+# Local GitLab CI parity (rspec). Chrome is required for system specs.
+# Not for interactive development — use docker-compose.yml.
 #
 #   docker compose -f docker-compose.ci.yml run --rm rspec
 
@@ -20,6 +21,7 @@ services:
     working_dir: /app
     volumes:
       - .:/app
+    shm_size: "2gb"
     depends_on:
       - postgres
       - redis
@@ -35,7 +37,10 @@ services:
     command: >
       bash -lc "
         apt-get update -qq &&
-        apt-get install -y -qq ca-certificates curl gnupg libvips42 &&
+        apt-get install -y -qq ca-certificates curl gnupg wget libvips42 &&
+        wget -q -O /tmp/google-chrome.deb https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb &&
+        apt-get install -y /tmp/google-chrome.deb || (apt-get -f install -y && apt-get install -y /tmp/google-chrome.deb) &&
+        rm -f /tmp/google-chrome.deb &&
         curl -fsSL https://deb.nodesource.com/setup_22.x | bash - &&
         apt-get install -y -qq nodejs &&
         corepack enable &&
