@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require "deface"
+
 module Decidim
   module BetterAccountability
     ##
@@ -7,6 +9,13 @@ module Decidim
     # No need to mount, decidim-* modules are mounted by default.
     class Engine < ::Rails::Engine
       isolate_namespace Decidim::BetterAccountability
+
+      # Deface 1.9 ignores app/overrides only when Rails.configuration.autoloader == :zeitwerk.
+      # That flag is gone on Rails 7.1+, so Zeitwerk expects SurroundResults from surround_results.rb.
+      initializer "decidim_better_accountability.ignore_deface_overrides", before: :set_autoload_paths do
+        overrides = root.join("app/overrides")
+        Rails.autoloaders.main.ignore(overrides) if overrides.exist?
+      end
 
       config.to_prepare do
         # Decorators&Overrides injections
