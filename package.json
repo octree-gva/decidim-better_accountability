@@ -1,6 +1,6 @@
 {
   "name": "decidim-better-accountability",
-  "version": "0.1.4",
+  "version": "0.2.0",
   "description": "Improvements on decidim accountabilities",
   "main": "index.js",
   "directories": {
